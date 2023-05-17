@@ -26,7 +26,10 @@ class tree_node:
             self.right_child.print()
             print(")", end="")
             
-    def evaluate(self, x: int) -> int | float:
+    def evaluate(self, x: int | float) -> float | None:
+        """Evaluate the function at some given value of X
+        :param x: The value to evaluate the function at
+        :returns: Float value of the function at X, or None if the operation was undefined at X."""
         if self.left_child is None and self.right_child is None:
             if self.type == "VARIABLE":
                 return x
@@ -43,7 +46,10 @@ class tree_node:
                 case "MULTIPLICATION":
                     return left_result * right_result
                 case "DIVISION":
-                    return left_result / right_result
+                    try:
+                        return left_result / right_result
+                    except ZeroDivisionError:
+                        return None                         # If the process results in: n/0, return None, as it is not a valid operation.
                 case "EXPONENT":
                     return left_result ** right_result
                 case other:  # noqa: F841
